@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { connect } from "react-redux";
 
 export function PlaceList({ loadPlaces, places }) {
   useEffect(() => {
@@ -13,4 +14,8 @@ export function PlaceList({ loadPlaces, places }) {
   );
 }
 
-export default PlaceList;
+const mapStateToProps = state => ({
+  places: state.places.records,
+});
+
+export default connect(mapStateToProps)(PlaceList);

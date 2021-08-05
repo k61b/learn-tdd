@@ -1,9 +1,11 @@
+import { Provider } from "react-redux";
+import store from "./store/index";
 import PlaceScreen from "./components/PlaceScreen";
 
 export default function App() {
   return (
-    <div>
+    <Provider store={store}>
       <PlaceScreen />
-    </div>
+    </Provider>
   );
 }
