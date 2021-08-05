@@ -1,3 +1,9 @@
+import PlaceScreen from "./components/PlaceScreen";
+
 export default function App() {
-  return <div>Hello, World.</div>;
+  return (
+    <div>
+      <PlaceScreen />
+    </div>
+  );
 }
