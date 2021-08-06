@@ -3,20 +3,24 @@ import { connect } from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { loadPlaces } from "../store/places/actions";
 
-export function PlaceList({ loadPlaces, places }) {
+export function PlaceList({ loadPlaces, places, loading }) {
   useEffect(() => {
     loadPlaces();
   }, [loadPlaces]);
   return (
-    <List>
-      {places.map(place => (
-        <ListItem key={place.id}>
-          <ListItemText>{place.name}</ListItemText>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      {loading && <CircularProgress data-testid="loading-indicator" />}
+      <List>
+        {places.map(place => (
+          <ListItem key={place.id}>
+            <ListItemText>{place.name}</ListItemText>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 }
 

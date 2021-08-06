@@ -9,20 +9,39 @@ describe("PlaceList", () => {
   let loadPlaces;
   let context;
 
-  beforeEach(() => {
-    loadPlaces = jest.fn().mockName("loadPlaces");
+  const renderWithProps = (propOverrides = {}) => {
+    const props = {
+      loadPlaces: jest.fn().mockName("loadPlaces"),
+      places,
+      ...propOverrides,
+    };
+    loadPlaces = props.loadPlaces;
 
-    context = render(<PlaceList loadPlaces={loadPlaces} places={places} />);
-  });
+    context = render(<PlaceList {...props} />);
+  };
 
   it("loads places on first render", () => {
+    renderWithProps();
     expect(loadPlaces).toHaveBeenCalled();
   });
 
   it("displays the places", () => {
+    renderWithProps();
     const { queryByText } = context;
 
     expect(queryByText("Sushi Place")).not.toBeNull();
     expect(queryByText("Pizza Place")).not.toBeNull();
+  });
+
+  it("displays the loading indicator while loading", () => {
+    renderWithProps({ loading: true });
+    const { queryByTestId } = context;
+    expect(queryByTestId("loading-indicator")).not.toBeNull();
+  });
+
+  it("does not display the loading indicator while not loading", () => {
+    renderWithProps({ loading: false });
+    const { queryByTestId } = context;
+    expect(queryByTestId("loading-indicator")).toBeNull();
   });
 });
