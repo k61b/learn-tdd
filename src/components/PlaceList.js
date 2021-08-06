@@ -30,7 +30,7 @@ export function PlaceList({ loadPlaces, places, loading, loadError }) {
 const mapStateToProps = state => ({
   places: state.places.records,
   loading: state.places.loading,
-  loadError: state.restaurants.loadError,
+  loadError: state.places.loadError,
 });
 
 const mapDispatchToProps = { loadPlaces };
