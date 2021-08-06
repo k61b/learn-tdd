@@ -5,6 +5,28 @@ import { loadPlaces } from "../places/actions";
 
 describe("places", () => {
   describe("loadPlaces action", () => {
+    describe("initially", () => {
+      let store;
+
+      beforeEach(() => {
+        const initialState = {};
+
+        store = createStore(
+          placesReducer,
+          initialState,
+          applyMiddleware(thunk),
+        );
+      });
+
+      it("does not have the loading flag set", () => {
+        expect(store.getState().loading).toEqual(false);
+      });
+
+      it("does not have the error flag set", () => {
+        expect(store.getState().loadError).toEqual(false);
+      });
+    });
+
     describe("when loading succeds", () => {
       const records = [
         { id: 1, name: "Sushi Place" },
@@ -38,37 +60,59 @@ describe("places", () => {
     });
 
     describe("while loading", () => {
-      it("sets a loading flag", () => {
+      let store;
+
+      beforeEach(() => {
         const api = {
           loadPlaces: () => new Promise(() => {}),
         };
 
-        const initialState = {};
+        const initialState = { loadError: true };
 
-        const store = createStore(
+        store = createStore(
           placesReducer,
           initialState,
           applyMiddleware(thunk.withExtraArgument(api)),
         );
 
         store.dispatch(loadPlaces());
+      });
 
+      it("sets a loading flag", () => {
+        expect(store.getState().loading).toEqual(true);
+      });
+
+      it("clears the error flag", () => {
+        expect(store.getState().loadError).toEqual(false);
+      });
+
+      it("clears the loading flag", () => {
         expect(store.getState().loading).toEqual(true);
       });
     });
-  });
 
-  describe("initially", () => {
-    it("does not have the loading flag set", () => {
-      const initialState = {};
+    describe("when loading fails", () => {
+      let store;
 
-      const store = createStore(
-        placesReducer,
-        initialState,
-        applyMiddleware(thunk),
-      );
+      beforeEach(() => {
+        const api = {
+          loadPlaces: () => Promise.reject(),
+        };
 
-      expect(store.getState().loading).toEqual(false);
+        const initialState = {};
+
+        store = createStore(
+          placesReducer,
+          initialState,
+          applyMiddleware(thunk.withExtraArgument(api)),
+        );
+
+        return store.dispatch(loadPlaces());
+      });
+
+      it("sets an error flag", () => {
+        expect(store.getState().loadError).toEqual(true);
+      });
     });
   });
 });

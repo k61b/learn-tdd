@@ -47,5 +47,21 @@ describe("PlaceList", () => {
       const { queryByTestId } = context;
       expect(queryByTestId("loading-indicator")).toBeNull();
     });
+
+    it("does not display the error message", () => {
+      const { queryByText } = context;
+      expect(queryByText("Places could not be loaded.")).toBeNull();
+    });
+  });
+
+  describe("when loading fails", () => {
+    beforeEach(() => {
+      renderWithProps({ loadError: true });
+    });
+
+    it("displays the error message", () => {
+      const { queryByText } = context;
+      expect(queryByText("Places could not be loaded.")).not.toBeNull();
+    });
   });
 });
