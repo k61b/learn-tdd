@@ -26,6 +26,7 @@ export function PlaceList({ loadPlaces, places, loading }) {
 
 const mapStateToProps = state => ({
   places: state.places.records,
+  loading: state.places.loading,
 });
 
 const mapDispatchToProps = { loadPlaces };
