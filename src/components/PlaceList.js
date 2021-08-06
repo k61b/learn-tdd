@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import { loadPlaces } from "../store/places/actions";
 
 export function PlaceList({ loadPlaces, places }) {
@@ -7,11 +10,13 @@ export function PlaceList({ loadPlaces, places }) {
     loadPlaces();
   }, [loadPlaces]);
   return (
-    <ul>
+    <List>
       {places.map(place => (
-        <li key={place.id}>{place.name}</li>
+        <ListItem key={place.id}>
+          <ListItemText>{place.name}</ListItemText>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 }
 
