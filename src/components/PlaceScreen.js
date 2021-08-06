@@ -1,10 +1,15 @@
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 import PlaceList from "./PlaceList.js";
 
 export default function PlaceScreen() {
   return (
-    <div>
-      <h1>Places</h1>
-      <PlaceList />
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h5">Places</Typography>
+        <PlaceList />
+      </CardContent>
+    </Card>
   );
 }
