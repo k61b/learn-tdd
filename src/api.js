@@ -9,6 +9,9 @@ const api = {
   loadPlaces() {
     return client.get("/restaurants").then(response => response.data);
   },
+  createPlace(name) {
+    return client.post("restaurants", { name }).then(response => response.data);
+  },
 };
 
 export default api;
