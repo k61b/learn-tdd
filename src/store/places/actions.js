@@ -14,6 +14,8 @@ export const loadPlaces = () => (dispatch, getState, api) => {
     });
 };
 
+export const createPlace = () => () => {};
+
 const startLoading = () => ({ type: START_LOADING });
 
 const storePLaces = records => ({

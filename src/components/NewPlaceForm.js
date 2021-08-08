@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { createPlace } from "../store/places/actions";
 
 export function NewPlaceForm({ createPlace }) {
   const [name, setName] = useState("");
@@ -31,4 +33,7 @@ export function NewPlaceForm({ createPlace }) {
   );
 }
 
-export default NewPlaceForm;
+const mapStateToProps = null;
+const mapDispatchProps = { createPlace };
+
+export default connect(mapStateToProps, mapDispatchProps)(NewPlaceForm);
