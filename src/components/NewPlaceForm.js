@@ -8,15 +8,21 @@ import { createPlace } from "../store/places/actions";
 export function NewPlaceForm({ createPlace }) {
   const [name, setName] = useState("");
   const [validationError, setValidationError] = useState(false);
+  const [serverError, setServerError] = useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
 
     if (name) {
       setValidationError(false);
-      createPlace(name).then(() => {
-        setName("");
-      });
+      setServerError(false);
+      createPlace(name)
+        .then(() => {
+          setName("");
+        })
+        .catch(() => {
+          setServerError(true);
+        });
     } else {
       setValidationError(true);
     }
@@ -24,6 +30,11 @@ export function NewPlaceForm({ createPlace }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      {serverError && (
+        <Alert severity="error">
+          The place could not be saved. Please try again.
+        </Alert>
+      )}
       {validationError && <Alert severity="error">Name is required</Alert>}
       <TextField
         placeholder="Add Place"

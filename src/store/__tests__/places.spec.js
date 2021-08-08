@@ -160,5 +160,13 @@ describe("places", () => {
         return expect(promise).resolves.toBeUndefined();
       });
     });
+
+    describe("when save fails", () => {
+      it("rejects", () => {
+        api.createPlace.mockRejectedValue();
+        promise = store.dispatch(createPlace(newPlaceName));
+        return expect(promise).rejects.toBeUndefined();
+      });
+    });
   });
 });
