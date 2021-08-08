@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import placesReducer from "../places/reducers";
-import { loadPlaces } from "../places/actions";
+import { createPlace, loadPlaces } from "../places/actions";
 
 describe("places", () => {
   describe("loadPlaces action", () => {
@@ -112,6 +112,48 @@ describe("places", () => {
 
       it("sets an error flag", () => {
         expect(store.getState().loadError).toEqual(true);
+      });
+    });
+  });
+  describe("createPlace action", () => {
+    const newPlaceName = "Sushi Place";
+    const existingPlace = { id: 1, name: "Pizza Place" };
+    const responsePlace = { id: 2, name: newPlaceName };
+
+    let api;
+    let store;
+
+    beforeEach(() => {
+      api = {
+        createPlace: jest.fn().mockName("createPlace"),
+      };
+
+      const initialState = { records: [existingPlace] };
+
+      store = createStore(
+        placesReducer,
+        initialState,
+        applyMiddleware(thunk.withExtraArgument(api)),
+      );
+    });
+
+    it("saves the place to the server", () => {
+      api.createPlace.mockResolvedValue(responsePlace);
+      store.dispatch(createPlace(newPlaceName));
+      expect(api.createPlace).toHaveBeenCalledWith(newPlaceName);
+    });
+
+    describe("when save succeds", () => {
+      beforeEach(() => {
+        api.createPlace.mockResolvedValue(responsePlace);
+        store.dispatch(createPlace(newPlaceName));
+      });
+
+      it("stores the returned place in the store", () => {
+        expect(store.getState().records).toEqual([
+          existingPlace,
+          responsePlace,
+        ]);
       });
     });
   });
