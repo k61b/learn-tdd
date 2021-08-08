@@ -9,7 +9,9 @@ export function NewPlaceForm({ createPlace }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    createPlace(name);
+    createPlace(name).then(() => {
+      setName("");
+    });
   };
 
   return (

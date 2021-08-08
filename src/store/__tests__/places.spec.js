@@ -122,6 +122,7 @@ describe("places", () => {
 
     let api;
     let store;
+    let promise;
 
     beforeEach(() => {
       api = {
@@ -142,11 +143,10 @@ describe("places", () => {
       store.dispatch(createPlace(newPlaceName));
       expect(api.createPlace).toHaveBeenCalledWith(newPlaceName);
     });
-
     describe("when save succeds", () => {
       beforeEach(() => {
         api.createPlace.mockResolvedValue(responsePlace);
-        store.dispatch(createPlace(newPlaceName));
+        promise = store.dispatch(createPlace(newPlaceName));
       });
 
       it("stores the returned place in the store", () => {
@@ -154,6 +154,10 @@ describe("places", () => {
           existingPlace,
           responsePlace,
         ]);
+      });
+
+      it("resolves", () => {
+        return expect(promise).resolves.toBeUndefined();
       });
     });
   });

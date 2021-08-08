@@ -16,7 +16,7 @@ export const loadPlaces = () => (dispatch, getState, api) => {
 };
 
 export const createPlace = name => (dispatch, getState, api) => {
-  api.createPlace(name).then(record => {
+  return api.createPlace(name).then(record => {
     dispatch(addPlace(record));
   });
 };
